@@ -1,0 +1,92 @@
+<div class="container mt-3">
+
+    <!-- Sistema de alertas y notificaciones -->
+    {{#if (eq query.status "plato_actualizado")}}
+        <div class="alert alert-success" role="alert">
+            <i style="margin-right: 5px" class="fa fa-circle-exclamation"></i>
+            Plato actualizado correctamente
+        </div>
+    {{/if}}
+
+    <nav aria-label="breadcrumb">
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/gestion">Gestion</a></li>
+            <li class="breadcrumb-item"><a href="/gestion/{{res_id}}/edit">Editar restaurante </a></li>
+            <li class="breadcrumb-item active" aria-current="page">Editar plato</li>
+        </ol>
+    </nav>
+
+
+    <h1 style="color:white" class="mb-4">
+        {{plato.nombre}}
+    </h1>
+
+    <form method="POST" action="{{plato.nombre}}/update-plato">
+        <div class="row mb-3">
+            <label for="inputNombre" class="col-sm-2 col-form-label">(*) Nombre </label>
+            <div class="col-sm-10">
+                <input name="nombre" type="text" required value="{{plato.nombre}}" class="form-control" id="inputNombre">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="inputPrecio" class="col-sm-2 col-form-label">(*) Precio</label>
+            <div class="col-sm-10">
+                <input name="precio" type="text" required value="{{plato.precio}}" class="form-control" id="inputCiudad">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="inputUrlImage" class="col-sm-2 col-form-label">(*) URL Imagen</label>
+            <div class="col-sm-10">
+                <input name="url_image" type="text" required value="{{plato.url_image}}" class="form-control" id="inputUrlImage">
+            </div>
+        </div>
+
+         <div class="row mb-3">
+            <label for="inputDescripcion" class="col-sm-2 col-form-label">Descripcion</label>
+            <div class="col-sm-10">
+                <input name="descripcion" placeholder = "Descripcion" value="{{plato.descripcion}}" type="text" class="form-control" id="inputDescripcion">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+              <label for="inputDisponibilidad" class="col-sm-2 col-form-label">(*) Disponibilidad</label>
+                <input id="disponibilidad_input" name="disponibilidad"   type="hidden" value="{{plato.disponibilidad}}">
+
+                {{#if plato.disponibilidad}}
+                <div class="col-sm-10" id="disponibilidad">
+                    <a onclick="cambiarDisponibilidad(this)" class="btn btn-success">Disponible</a>
+                </div>
+                {{else}}
+                <div class="col-sm-10" id="disponibilidad">
+                    <a onclick="cambiarDisponibilidad(this)" class="btn btn-danger">No disponible</a>
+                </div>
+                {{/if}}
+        </div>
+
+        <input type="hidden" name="_csrf" value="{{_csrf}}">
+        <button type="submit" class="btn btn-primary ">Editar Plato</button>
+    </form>
+    
+</div>
+
+<script>
+    function cambiarDisponibilidad(elemento){
+        var dis=document.querySelector("#disponibilidad")
+
+        if(elemento.text=="No disponible"){
+            document.querySelector("#disponibilidad_input").value = "true";
+            dis.innerHTML="";
+            dis.insertAdjacentHTML("beforeend",'<a onclick="cambiarDisponibilidad(this)" class="btn btn-success">Disponible</a>')
+        }
+        else{
+            document.querySelector("#disponibilidad_input").value = "false";
+            dis.innerHTML="";
+            dis.insertAdjacentHTML("beforeend",'<a onclick="cambiarDisponibilidad(this)" class="btn btn-danger">No disponible</a>')
+        }
+    }
+
+
+</script>

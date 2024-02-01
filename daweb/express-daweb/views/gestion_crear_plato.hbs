@@ -1,0 +1,50 @@
+<div class="container mt-3">
+
+    <nav aria-label="breadcrumb">
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/gestion">Gestion</a></li>
+            <li class="breadcrumb-item"><a href="/gestion/{{res_id}}/edit">Editar restaurante </a></li>
+            <li class="breadcrumb-item active" aria-current="page">Crear plato</li>
+        </ol>
+    </nav>
+
+    <h1 style="color:white" class="mb-4">
+        Crear Plato
+    </h1>
+
+    <form method="POST" action="/gestion/{{res_id}}/edit/plato/crear">
+        <div class="row mb-3">
+            <label for="inputNombre" class="col-sm-2 col-form-label">(*) Nombre </label>
+            <div class="col-sm-10">
+                <input name="nombre" type="text" required placeholder = "Nombre Plato"  class="form-control" id="inputNombre">
+            </div>
+        </div>
+        
+
+        <div class="row mb-3">
+            <label for="inputPrecio" class="col-sm-2 col-form-label">(*) Precio</label>
+            <div class="col-sm-10">
+                <input name="precio" type="text" required placeholder = "Precio"  class="form-control" id="inputCiudad">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="inputUrlImage" class="col-sm-2 col-form-label">(*) URL Imagen</label>
+            <div class="col-sm-10">
+                <input name="url_image" placeholder = "URL imagen" type="text" required class="form-control" id="inputUrlImage">
+            </div>
+        </div>
+
+         <div class="row mb-3">
+            <label for="inputDescripcion" class="col-sm-2 col-form-label">Descripcion</label>
+            <div class="col-sm-10">
+                <input name="descripcion" placeholder = "Descripcion" type="text" class="form-control" id="inputDescripcion">
+            </div>
+        </div>
+
+        <input type="hidden" name="_csrf" value="{{_csrf}}">
+        <button type="submit" class="btn btn-primary ">Crear Plato</button>
+    </form>
+    
+</div>

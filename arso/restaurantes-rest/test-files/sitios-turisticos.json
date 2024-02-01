@@ -1,0 +1,42 @@
+[
+    {
+        "title": "Guadalentín",
+        "summary": "El río Guadalentín, (en árabe Oued al Iznain, «segundo río», o Oued al Lentin, «río de fango»), también conocido como Sangonera es un río del sureste de España que atraviesa la Región de Murcia, discurriendo a través del valle del mismo nombre (...)",
+        "lat": 37.9917,
+        "lng": -1.0728,
+        "wikiURL": "https://es.wikipedia.org/wiki/Guadalentín",
+        "distance": 0.776
+    },
+    {
+        "title": "Beniaján",
+        "summary": "Beniaján es una localidad española del municipio de Murcia, en la Región de Murcia, España. Se emplaza en la Huerta de Murcia, al pie de la extensa sierra que cierra el valle del río Segura por el sur, justo donde el Puerto del Garruchal abre uno de los pasos naturales que comunica con la depresión (...)",
+        "lat": 37.9751,
+        "lng": -1.071,
+        "wikiURL": "https://es.wikipedia.org/wiki/Beniaján",
+        "distance": 1.1169
+    },
+    {
+        "title": "Llano de Brujas",
+        "summary": "Llano de Brujas es un pedanía del municipio de Murcia (Región de Murcia, España). Se situa en plena llanura de la Huerta de Murcia. Actualmente, la pedania murciana tiene 5636 habitantes y una extensión de 7,6 kilometros cuadrados (...)",
+        "lat": 38.006,
+        "lng": -1.071,
+        "wikiURL": "https://es.wikipedia.org/wiki/Llano_de_Brujas",
+        "distance": 2.3257
+    },
+    {
+        "title": "Zarandona",
+        "summary": "Zarandona es una pedanía perteneciente al municipio de Murcia, en la Región de Murcia (España). Cuenta con una población de 6.696 habitantes (INE 2015) y una extensión de 2,47 km². Se encuentra a 1 km de Murcia, con la que conforma un continuo urbano, y se sitúa a una altitud media de 39 metros (...)",
+        "lat": 38.0,
+        "lng": -1.1,
+        "wikiURL": "https://es.wikipedia.org/wiki/Zarandona",
+        "distance": 3.1134
+    },
+    {
+        "title": "Santa Cruz (Murcia)",
+        "summary": "Santa Cruz es una pedanía perteneciente al municipio de Murcia, en la Región de Murcia (España). Cuenta con una población de 2.314 habitantes (INE, 2004) y una extensión de 4,239 km². Se encuentra a 8 km de Murcia (...)",
+        "lat": 38.0153,
+        "lng": -1.0534,
+        "wikiURL": "https://es.wikipedia.org/wiki/Santa_Cruz_(Murcia)",
+        "distance": 3.6557
+    }
+]

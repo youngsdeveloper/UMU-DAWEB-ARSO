@@ -1,0 +1,102 @@
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+
+<div class="container mt-3">
+
+    <div id="alert"></div>
+
+    <nav aria-label="breadcrumb">
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/gestion">Gestion</a></li>
+            <li class="breadcrumb-item active">Crear restaurante</li>
+        </ol>
+    </nav>
+
+
+    <h1 style="color:white" class="mb-4">
+        Crear restaurante
+    </h1>
+
+    <form method="POST" action="/gestion/create" onsubmit="return checkForm()">
+        <div class="row mb-3">
+            <label for="inputNombre" class="col-sm-2 col-form-label">(*) Nombre </label>
+            <div class="col-sm-10">
+                <input name="nombre" type="text" required placeholder="Restaurante Casa Pepe" class="form-control" id="inputNombre">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="inputCiudad" class="col-sm-2 col-form-label">(*) Ciudad</label>
+            <div class="col-sm-10">
+                <input name="ciudad" type="text" required placeholder="Madrid"  class="form-control" id="inputCiudad">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="inputUrlImage" class="col-sm-2 col-form-label">(*) URL Imagen</label>
+            <div class="col-sm-10">
+                <input name="url_image" type="text" required placeholder="http://image.com/image.jpeg" class="form-control" id="inputUrlImage">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">(*) Ubicacion</label>
+            <input type="hidden" required name="lat">
+            <input type="hidden" required name="lng">
+        </div>
+        
+        <div id="map" class="mb-3"></div>
+        <p style="color:white">
+            Elige en el mapa la ubicación exacta del restaurante
+        </p>
+
+        <input type="hidden" name="_csrf" value="{{_csrf}}">
+        
+        <button type="submit" class="btn btn-primary">Crear restaurante</button>
+    </form>
+    
+</div>
+
+ 
+
+ <!-- Make sure you put this AFTER Leaflet's CSS -->
+ <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+<script>
+    var restauranteCoordenadas = [37.992281,-1.1301438];
+    var map = L.map('map').setView(restauranteCoordenadas, 13);
+    //var marker = L.marker(restauranteCoordenadas).addTo(map);
+    var marker = null;
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    map.on('click', function(e){
+
+        if(marker){
+            map.removeLayer(marker);
+        }
+        marker = L.marker(e.latlng).addTo(map);
+
+        console.log(e.latlng)
+
+        document.getElementsByName("lat")[0].setAttribute("value",e.latlng.lat);
+        document.getElementsByName("lng")[0].setAttribute("value",e.latlng.lng);
+    });
+
+    function checkForm(){
+        if(marker==null){
+            document.getElementById("alert").innerHTML = '<div class="alert alert-danger" role="alert"> <i class="fa-solid fa-circle-exclamation"></i><span style="margin-left:10px;">Elige una ubicación para el restaurante</span></div>';
+            return false;
+        }
+
+        return true;
+
+    }
+
+
+</script>

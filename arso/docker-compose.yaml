@@ -1,0 +1,76 @@
+version: "1"
+
+services:
+
+  restaurantes-rest:
+    build:
+      dockerfile: Dockerfile.restaurante
+    networks:
+      - arso
+    ports:
+      - "8080:8080"
+    environment:
+      - OPINIONES_URL=http://opiniones-rest:5000/api/
+      - MONGO_URL=mongodb://arso:arso@ac-icgy9lz-shard-00-00.0jm1wud.mongodb.net:27017,ac-icgy9lz-shard-00-01.0jm1wud.mongodb.net:27017,ac-icgy9lz-shard-00-02.0jm1wud.mongodb.net:27017/?ssl=true&replicaSet=atlas-p5epmh-shard-0&authSource=admin&retryWrites=true&w=majority
+
+  opiniones-rest:
+    build:
+      dockerfile: Dockerfile.opiniones-rest
+    networks:
+      - arso
+      - mongo-opiniones
+    environment:
+      MONGO_URL: mongodb://arso:arso@mongo:27017/
+
+    ports:
+      - "5000:5000"
+      
+  opiniones-graphql:
+    build:
+      dockerfile: Dockerfile.opiniones-graphql
+    networks:
+      - arso
+      - mongo-opiniones
+    environment:
+      MONGO_URL: mongodb://arso:arso@mongo:27017/
+    ports:
+      - "8070:8080"
+  pasarela:
+    build:
+      dockerfile: Dockerfile.pasarela
+    networks:
+      - arso
+    ports:
+      - "8090:8090"
+    environment:
+      - RESTAURANTES_URL=http://restaurantes-rest:8080/api/restaurantes
+      - OPINIONES_URL=http://opiniones-rest:5000/api/opiniones
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: arso
+      MONGO_INITDB_ROOT_PASSWORD: arso
+    networks:
+      - mongo-opiniones
+    volumes:
+      - ./data:/data/db
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: arso
+      ME_CONFIG_MONGODB_ADMINPASSWORD: arso
+      ME_CONFIG_MONGODB_URL: mongodb://arso:arso@mongo:27017/
+    networks:
+      - mongo-opiniones
+
+
+
+  
+networks:
+  arso:
+  mongo-opiniones:

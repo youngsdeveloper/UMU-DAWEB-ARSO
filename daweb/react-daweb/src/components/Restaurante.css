@@ -1,0 +1,13 @@
+
+
+.restaurante .card{
+    max-width: 18rem;
+}
+
+.restaurante  .buttons .btn:not(:first-child){
+    margin-left: 7px;
+}
+
+.restaurante  svg+span{
+    margin-left: 7px;
+}

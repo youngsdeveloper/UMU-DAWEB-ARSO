@@ -1,0 +1,30 @@
+<div class="container mt-5">
+
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="El restaurante que tanto estabas buscando..." aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button class="btn btn-dark btn-lg" type="button" id="button-addon2">
+        <i class="fa-solid fa-search"></i>
+        </button>
+    </div>
+
+    <div class="row">
+        {{#each restaurantes}}
+        <div class="col-4">
+            <div class="card text-align-center mb-3" style="max-width: 18rem;   ">
+                <!--<img src="..." class="card-img-top" alt="...">-->
+
+                <div class="card-body">
+                    <h5 class="card-title">{{this.nombre}}</h5>
+                    <p class="card-text">
+                        <i class="fa-solid fa-city" style="margin-right: 7px;"></i>{{this.ciudad}}</span>
+                    </p>
+                    <a href="#" class="btn btn-primary">Realizar pedido</a>
+                    <a href="/restaurantes/{{this.id}}" class="btn btn-secondary"><i class="fa-sharp fa-solid fa-eye" style="margin-right: 7px;"></i>Ver</a>
+                </div>
+
+            </div>
+        </div>
+
+        {{/each}}
+    </div>
+</div>

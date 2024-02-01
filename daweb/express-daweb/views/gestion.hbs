@@ -1,0 +1,81 @@
+<div class="container mt-5">
+
+    <div class="row justify-content-between mb-4">
+        <div class="col-8 my-auto">
+            <h1 style="color:white">
+                Gestiona tus restaurantes
+            </h1>
+        </div>
+        <div class="col-4 text-end my-auto ">
+            <a href="/gestion/create" class="btn btn-primary align-middle">Crear restaurante</a>
+        </div>
+    </div>
+
+    <!-- Sistema de alertas y notificaciones -->
+    {{#if (eq query.status "restaurante_creado")}}
+        <div class="alert alert-success" role="alert">
+            <i style="margin-right: 5px" class="fa fa-circle-exclamation"></i>
+            Restaurante creado correctamente
+        </div>
+    {{/if}}
+
+    {{#if (eq query.status "restaurante_eliminado")}}
+        <div class="alert alert-success" role="alert">
+            <i style="margin-right: 5px" class="fa fa-circle-exclamation"></i>
+            Restaurante eliminado correctamente
+        </div>
+    {{/if}}
+
+    <div class="table-responsive">
+        <table class="table table-striped table-light">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th class="d-none d-md-table-cell" scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th class="d-none d-md-table-cell" scope="col">Ciudad</th>
+                <th class="d-none d-md-table-cell" scope="col">Fecha alta</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <div class="row">
+                {{#each restaurantes}}
+                <tr>
+                    <td>
+                        {{ sum @index 1 }}
+                    </td>
+                    <td class="d-none d-md-table-cell">
+                        {{ this.id }}
+                    </td>
+                    <td >
+                        {{ this.nombre }}
+                    </td>
+                    <td class="d-none d-md-table-cell">
+                        {{ this.ciudad }}
+                    </td>
+                    <td class="d-none d-md-table-cell">
+                        {{ this.fechaAlta }}
+                    </td>
+                    <td>
+                        <a href="/gestion/{{this.id}}/edit" class="btn btn-warning">Editar</a>
+
+                        <form action="/gestion/{{id}}/delete" method="post">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <input type="hidden" name="_csrf" value="{{../_csrf}}">
+                        </form>
+
+                        
+                    </td>
+                </tr>
+                
+
+                {{/each}}
+
+            </div>
+
+        </tbody>
+        </table>
+    </div>
+    
+</div>

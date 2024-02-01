@@ -1,0 +1,394 @@
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+
+<div class="container mt-3">
+
+    <nav aria-label="breadcrumb">
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/gestion">Gestion</a></li>
+            <li class="breadcrumb-item active">Editar restaurante</li>
+        </ol>
+    </nav>
+
+
+    <!-- Sistema de alertas y notificaciones -->
+    {{#if (eq query.status "restaurante_actualizado")}}
+        <div class="alert alert-success" role="alert">
+            <i style="margin-right: 5px" class="fa fa-circle-exclamation"></i>
+            Restaurante actualizado correctamente
+        </div>
+    {{else if (eq query.status "plato_creado")}}
+        <div class="alert alert-success" role="alert">
+            <i style="margin-right: 5px" class="fa fa-circle-exclamation"></i>
+            Plato creado correctamente
+        </div>
+    {{/if}}
+
+    <h1 style="color:white" class="mb-4">
+        {{ restaurante.nombre }}
+    </h1>
+
+    <form method="post" action="/gestion/{{restaurante.id}}/update">
+        <div class="row mb-3">
+            <label for="inputNombre" class="col-sm-2 col-form-label">(*) Nombre</label>
+            <div class="col-sm-10">
+                <input name="nombre" required type="text" placeholder="Restaurante Casa Pepe" value="{{ restaurante.nombre }}" class="form-control" id="inputNombre">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="inputCiudad" class="col-sm-2 col-form-label">(*) Ciudad</label>
+            <div class="col-sm-10">
+                <input name="ciudad" required type="text" placeholder="Madrid" value="{{ restaurante.ciudad }}" class="form-control" id="inputCiudad">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="inputUrlImage" class="col-sm-2 col-form-label">(*) URL Imagen</label>
+            <div class="col-sm-10">
+                <input name="url_image" required type="text" placeholder="http://image.com/image.jpeg" value="{{ restaurante.url_image }}" class="form-control" id="inputUrlImage">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="inputCiudad" class="col-sm-2 col-form-label">(*) Ubicacion</label>
+            <input type="hidden" required name="lat" value="{{restaurante.lat}}">
+            <input type="hidden" required name="lng" value="{{restaurante.lng}}">
+        </div>
+        <div id="map" class="mb-3"></div>
+
+
+
+        <input type="hidden" name="_csrf" value="{{_csrf}}">
+
+        
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+    </form>
+
+    
+
+    <div class="row" style="margin-top: 40px;" id="sitiosTuristicos">
+        <div class="col-6">
+            <h3 style="color:white" >
+                Sitios turisticos cercanos
+            </h3>
+            <table  class="table table-striped table-light">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Distancia</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="sitios_elegibles">
+                    {{#each sitios_elegibles}}
+                        <tr>
+                            <td>
+                                {{title}}
+                            </td>
+                            <td>
+                                {{ twoDecimals distance }}km
+                            </td>
+                            <td>
+                                <input type="hidden" class="json_data" value="{{ toJSON this }}">
+                                <button type="button" onclick="addSitio(this)" class="btn btn-success">
+                                    <span class="spinner-border spinner-border-sm" role="status" hidden="true"></span>
+                                    <span class="text">Añadir</span>
+                                </button>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6">
+            <h3 style="color:white" >
+                Sitios turisticos seleccionados
+            </h3>
+            <table class="table table-striped table-light">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Distancia</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="sitios_seleccionados">
+                    {{#each restaurante.sitioTuristicos}}
+                        <tr>
+                            <td>
+                                {{title}}
+                            </td>
+                            <td>
+                                {{ twoDecimals distance }}km
+                            </td>
+                            <td>
+                                <input type="hidden" class="json_data" value="{{ toJSON this }}">
+                                <button type="button" onclick="deleteSitio(this)" class="btn btn-danger">
+                                    <span class="spinner-border spinner-border-sm" role="status" hidden="true"></span>
+                                    <span class="text">Eliminar</span>
+                                </button>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+     <div class="row" style="margin-top: 40px;">
+      <div class="col-6">
+        <div class="row mb-2">
+                <div class="col-sm-8">
+                    <h3 style="color:white" >
+                        Platos
+                    </h3>
+                </div>
+                <div class="col-sm-4 text-end">
+                    <a href="/gestion/{{restaurante.id}}/edit/plato/crear" class="btn btn-success">Añadir</a>
+                </div>
+                
+                
+            </div>
+            <table  class="table table-striped table-light">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Disponibilidad</th>
+                        <th scope="col">Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="platos">
+                    {{#each restaurante.platos}}
+                        <tr>
+                            <td>
+                                {{nombre}}
+                            </td>
+                            <td>
+                                {{ precio }}€
+                            </td>
+                            <td>
+                                {{#if disponibilidad}}
+                                    Disponible
+                                {{else}}
+                                    No Disponible
+                                {{/if}}
+                            </td>
+                            <td>
+                                <div>
+                                    <a href="/gestion/{{../restaurante.id}}/edit/plato/{{nombre}}" class="btn btn-warning">Editar</a>
+                                </div>
+                                <div class="mt-2">
+                                    <button type="submit" onclick="deletePlato(this)" class="btn btn-danger">
+                                    <span class="spinner-border spinner-border-sm" role="status" hidden="true"></span>
+                                    <span class="text">Eliminar</span>
+                                    <input type="hidden" class="json_data" value="{{ toJSON this }}">
+
+                                </button>
+                                </div>
+
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+ 
+
+ <!-- Make sure you put this AFTER Leaflet's CSS -->
+ <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+<script>
+    var restauranteCoordenadas = [{{restaurante.lat}},{{restaurante.lng}}];
+    var map = L.map('map').setView(restauranteCoordenadas, 13);
+    var marker = L.marker(restauranteCoordenadas).addTo(map);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    map.on('click', function(e){
+        map.removeLayer(marker);
+        marker = L.marker(e.latlng).addTo(map);
+
+        console.log(e.latlng)
+
+        document.getElementsByName("lat")[0].setAttribute("value",e.latlng.lat);
+        document.getElementsByName("lng")[0].setAttribute("value",e.latlng.lng);
+    });
+    
+    var isStoring = false;
+
+    function addSitio(element){
+
+        if(isStoring==true){
+            return;
+        }
+
+        isStoring=true;
+
+      
+        var body = element.parentNode.querySelector(".json_data").value;
+
+        var loading = element.querySelector(".spinner-border");
+        var button_text = element.querySelector(".text");
+
+        loading.hidden = false;
+        button_text.hidden = true;
+
+        fetch("/gestion/{{restaurante.id}}/update/add-sitio",{
+            method: "POST",
+            body: body,
+            credentials: "same-origin",
+            headers:{
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': "{{_csrf}}"
+            }    
+
+        }).then(function(body){
+           return body.json();
+        }).then(function(data){
+            loading.hidden = true;
+            button_text.hidden = false;
+
+            renderSitiosElegibles(data.sitios_elegibles)
+            renderSitiosSeleccionados(data.sitios_elegidos)
+
+            isStoring=false;
+
+        });
+    }
+
+    function deleteSitio(element){
+
+        if(isStoring==true){
+            return;
+        }
+        
+        isStoring=true;
+
+        var body = element.parentNode.querySelector(".json_data").value;
+
+        var loading = element.querySelector(".spinner-border");
+        var button_text = element.querySelector(".text");
+
+        loading.hidden = false;
+        button_text.hidden = true;
+
+        fetch("/gestion/{{restaurante.id}}/update/delete-sitio",{
+            method: "POST",
+            body: body,
+            credentials: "same-origin",
+            headers:{
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': "{{_csrf}}"
+            }    
+
+        }).then(function(body){
+           return body.json();
+        }).then(function(data){
+            loading.hidden = true;
+            button_text.hidden = false;
+
+            renderSitiosElegibles(data.sitios_elegibles)
+            renderSitiosSeleccionados(data.sitios_elegidos)
+
+            isStoring=false;
+
+
+        });
+    }
+
+    function deletePlato(element){
+
+        if(isStoring==true){
+            return;
+        }
+        
+        isStoring=true;
+
+        var body = element.parentNode.querySelector(".json_data").value;
+
+        var loading = element.querySelector(".spinner-border");
+        var button_text = element.querySelector(".text");
+
+        loading.hidden = false;
+        button_text.hidden = true;
+
+        fetch("/gestion/{{restaurante.id}}/update/remove-plato",{
+            method: "POST",
+            body: body,
+            credentials: "same-origin",
+            headers:{
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': "{{_csrf}}"
+            }    
+
+        }).then(function(body){
+           return body.json();
+        }).then(function(data){
+            loading.hidden = true;
+            button_text.hidden = false;
+
+            renderPlatos(data.platos)
+            isStoring=false;
+
+
+        });
+    }
+
+    function renderSitiosElegibles(sitios_elegibles){
+        var tabla = document.querySelector("#sitios_elegibles");
+        tabla.innerHTML = "";
+
+        button = `<button type="button" onclick="addSitio(this)" class="btn btn-success"><span class="spinner-border spinner-border-sm" role="status" hidden="true"></span><span class="text">Añadir</span></button>`;
+
+
+        sitios_elegibles.forEach(sitio => {
+            tabla.insertAdjacentHTML("beforeend", getHTMLSitio(sitio, button));
+        });
+    }
+
+    function renderSitiosSeleccionados(sitios_seleccionados){
+        var tabla = document.querySelector("#sitios_seleccionados");
+        tabla.innerHTML = "";
+
+        button = `<button type="button" onclick="deleteSitio(this)" class="btn btn-danger"><span class="spinner-border spinner-border-sm" role="status" hidden="true"></span><span class="text">Eliminar</span></button>`;
+
+
+        sitios_seleccionados.forEach(sitio => {
+            tabla.insertAdjacentHTML("beforeend", getHTMLSitio(sitio, button));
+        });
+    }
+
+    function renderPlatos(platos){
+        var tabla = document.querySelector("#platos");
+        tabla.innerHTML = "";
+
+        platos.forEach(plato => {
+            tabla.insertAdjacentHTML("beforeend", getHTMLPlato(plato));
+        });
+    }
+
+    function getHTMLSitio(sitio, button){
+        dataSitio = `<input type="hidden" class="json_data" value='${JSON.stringify(sitio)}'>`
+        return `<tr><td>${sitio.title}</td><td>${sitio.distance.toFixed(2)}km</td><td>${dataSitio}${button}</td></tr>`;
+    }
+
+
+function getHTMLPlato(plato){
+ 
+        var dataPlato = `<input type="hidden" class="json_data" value='${JSON.stringify(plato)}'>`
+        var dis= plato.disponibilidad ? "Disponible" : "No disponible"
+        var buttonEliminar = `<button type="submit" onclick="deletePlato(this)" class="btn btn-danger"><span class="spinner-border spinner-border-sm" role="status" hidden="true"></span><span class="text">Eliminar</span></button>`;
+        var buttonEditar = `<a href="/gestion/{{../restaurante.id}}/edit/plato/{{nombre}}" class="btn btn-warning mb-2">Editar</a>`;
+        return `<tr><td>${plato.nombre}</td><td>${plato.precio}€</td><td>${dis}</td><td>${dataPlato}${buttonEditar}${buttonEliminar}</td></tr>`;
+    }
+</script>

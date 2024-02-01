@@ -1,0 +1,61 @@
+<div class="row justify-content-center mt-5">
+    <div class="col-4 card">
+         <h3 class="card-title mt-3 text-center">Mi Perfil</h3>
+        <class="card-body">
+            <div class="mb-3">
+                <div>
+                    <label for="email1" class="form-label">Correo electrónico</label>
+                </div>
+
+                <div>
+                    <span>{{user.usuario}}</span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div>
+                    <label for="usuario" class="form-label">Usuario</label>
+                </div>
+
+                <div>
+                    <span>{{user.sub}}</span>
+                </div>
+            </div>
+           <div class="mb-3">
+                <div>
+                    <label for="rol" class="form-label">Rol</label>
+                </div>
+
+                <div>
+                    <span>{{user.rol}}</span>
+                </div>
+            </div>
+
+            <div class="d-grid">
+                <button onClick="cerrarSesion()" type="button" class="btn btn-primary d-inline text-center mb-3">
+                <span>
+                    Cerrar Sesión
+                </span>
+                </button>
+            </div>
+
+        </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function cerrarSesion(event){
+        
+        fetch("logout",{
+            method: "POST",
+            credentials: "include",
+            headers:{
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': "{{_csrf}}"
+            }    
+
+        }).then(()=>{
+            window.location.replace("/login");
+        })
+    }
+</script>

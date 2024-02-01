@@ -1,0 +1,207 @@
+/* Custom Colors */
+
+.btn-primary{
+    background-color: #ff4e62 !important;
+    border-color: #ff4e62 !important;
+}
+
+.navbar-brand img{
+    width: 100px;
+}
+
+.navbar{
+    background-color: #14343B !important;
+}
+
+.navbar .nav-link{
+    color: white;
+    font-weight: bold;
+}
+
+.navbar .nav-link.active{
+    color: #ff4e62;
+
+}
+
+body{
+    background-color: #25626E;
+}
+
+.breadcrumb a{
+    color: white;
+}
+
+
+.breadcrumb .active{
+    color: #ff4e62;
+    font-weight: bold;
+}
+
+.intro{
+    text-align: center;
+}
+
+
+.intro .carousel-item{
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.intro .carousel-item div{
+    width: 100%;
+    padding: 5% 18%;
+    text-align: center;
+}
+.intro .h1{
+    color: white;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 3.5em;
+    padding-top: 30px;
+    padding-bottom: 30px;
+
+    margin-top: 8.5%;
+    background-color: #25626E;
+
+}
+.carousel-01{
+    background-image: url(/images/carrousel/01.jpg);
+}
+.carousel-02{
+    background-image: url(/images/carrousel/02.jpg);
+}
+
+.icon-xl{
+    font-size: 5rem;
+    color: #ff4e62;
+}
+
+.searchbox{
+    background: none;
+    border: none;
+}
+
+.searchbox .card-title{
+    color: white;
+    font-size: 3rem;
+    text-align: center;
+}
+
+.searchbox .input-group{
+    width:50% !important;
+    margin: auto;
+}
+
+/* Login */
+
+.login-box{
+    border: 4px solid #ff4e62;
+    padding: 20px;
+    border-radius: 20px;
+    color: white;
+}
+
+.github-login .btn{
+    text-align: left;
+    vertical-align: middle;
+    align-items: center;
+    display: flex;
+    padding: 10px 20px;
+}
+
+.github-login .btn i{
+    font-size: 2em;
+    margin-right: 10px;
+}
+
+/* Vista de restaurante */
+
+.map{
+    width: 100%;
+    height: 300px;
+}
+
+.plato{
+    padding: 8px 5px;
+}
+
+.plato img{
+    width: 100%;
+    height: auto;
+}
+
+.plato .title{
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 1.1em;
+}
+
+.plato .price{
+    color: rgb(57, 60, 66);
+}
+
+.reseña{
+    padding: 5px 0px;
+}
+
+
+.reseña .stars{
+    margin-bottom:10px;
+}
+
+.stats-opiniones{
+    color: rgba(29, 27, 27,0.8);
+    font-size: 0.8em;
+}
+
+.sitioTuristico:not(:last-child){
+    padding-bottom: 4px;
+    border-bottom: 2px solid rgba(78, 78, 80,0.6);
+}
+
+
+.sitioTuristico a{
+    font-size: 0.9em;
+}
+
+.sitioTuristico .distance{
+    font-size: 0.8em;
+}
+/* Stars Component */
+
+.stars img{
+    width: 30px;
+    height: 30px;
+}
+
+
+/* CSS Helpers */
+
+.is-fullwdith{
+    width: 100%;
+}
+
+/* Gestion Formularios */
+
+form label{
+    color: white;
+}
+
+form .form-text{
+    color: white;
+}
+
+#map{
+    width: 800px;
+    height: 400px;
+}
+
+input::placeholder{
+    color:rgba(83, 83, 83, 0.371) !important;
+}
+
+form label{
+    color: inherit;
+}
+

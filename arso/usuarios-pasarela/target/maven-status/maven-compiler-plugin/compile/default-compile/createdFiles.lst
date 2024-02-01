@@ -1,0 +1,16 @@
+repositorio/FactoriaRepositorios.class
+utils/Utils.class
+servicio/FactoriaServicios.class
+usuarios/servicio/IServicioUsuarios.class
+repositorio/RepositorioMemoria.class
+repositorio/RepositorioException.class
+usuarios/modelo/Rol.class
+repositorio/EntidadNoEncontrada.class
+repositorio/Repositorio.class
+repositorio/Identificable.class
+utils/PropertiesReader.class
+repositorio/RepositorioString.class
+usuarios/servicio/test/Programa.class
+usuarios/modelo/Usuario.class
+usuarios/servicio/ServicioUsuarios.class
+usuarios/repositorio/RepositorioUsuariosMemoria.class

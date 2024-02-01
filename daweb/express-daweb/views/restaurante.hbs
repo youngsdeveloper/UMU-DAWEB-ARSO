@@ -1,0 +1,330 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <div class="card text-align-center mb-3" style="width: 100%; margin: auto;">
+                <!--<img src="..." class="card-img-top" alt="...">-->
+
+                <div class="card-body">
+                    <h5 class="card-title">{{restaurante.nombre}}</h5>
+                    <p class="card-text">
+                        <i class="fa-solid fa-city" style="margin-right: 7px;"></i>{{restaurante.ciudad}}</span>
+                    </p>
+                </div>
+                 <iframe class="map" src="https://maps.google.com/maps?q={{restaurante.lat}},{{restaurante.lng}}&hl=es&z=14&output=embed" frameborder="0"></iframe>
+
+
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-3">
+            <div class="card text-align-center mb-3" style=" margin: auto;">
+                <!--<img src="..." class="card-img-top" alt="...">-->
+
+                <div class="card-body" style="padding-bottom: 2px;">
+                    <h5 class="card-title">Opiniones</h5>
+                    <p class="card-text" style="margin-bottom: 0px;">
+
+                        {{#if opinion }}
+
+                            <div class="stats-opiniones mb-3">
+                                {{ twoDecimals opinion.avgCalificacion }}/5 de {{ opinion.numValoraciones }} reseñas
+                            </div>
+
+
+                            {{#each (takeOnly opinion.valoraciones 3)}}
+
+
+                                <div class="reseña">
+                                    <div class="stars">
+                                        {{#times this.calificacion }}
+                                            <img src="/images/icons/star.svg">
+                                        {{/times}}
+
+                                        {{#times (minus 5 this.calificacion) }}
+                                            <img src="/images/icons/star_nofill.svg">
+                                        {{/times}}
+                                    </div>
+
+                                    <div>
+                                        {{ this.comentario }}
+                                    </div>
+
+                                </div>
+
+                            {{/each}}
+
+                            <a href="http://localhost:3001/opiniones/{{opinion.id}}" class="btn btn-secondary is-fullwdith mt-3">
+                                Ver todos
+                            </a>
+                            <a href="http://localhost:3001/opiniones/{{opinion.id}}" class="btn btn-success is-fullwdith mt-1">
+                                Enviar opinión
+                            </a>
+                        {{else}}
+                            <div class="alert alert-danger">
+                                Ha habido un error al conectarse con el servicio de opiniones
+                            </div>
+                        {{/if}}
+                        
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-3">
+            <div class="card text-align-center mb-3" style="margin: auto;">
+                <!--<img src="..." class="card-img-top" alt="...">-->
+
+                <div class="card-body" >
+                    <h5 class="card-title">Sitios cercanos</h5>
+
+                        {{#if restaurante.sitioTuristicos }}
+
+                        {{#each restaurante.sitioTuristicos }}
+
+
+                            <div class="sitioTuristico">
+                                <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{this.lat}}%2C{{this.lng}}&hl=es-419">
+                                {{ this.title }}
+                                </a>
+                                <div class="distance">
+                                    Se encuentra a {{ twoDecimals this.distance }}km
+                                </div>
+                            </div>
+
+                        {{/each}}
+
+                        {{else}}
+                            <div class="alert alert-danger">
+                                No hay sitios cercanos destacados para este restaurante
+                            </div>
+                        {{/if}}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-12">
+
+
+            <div class="card text-align-center mb-3" style=" margin: auto;">
+                <!--<img src="..." class="card-img-top" alt="...">-->
+
+
+                <div class="card-body">
+                    <h5 class="card-title">Platos</h5>
+                    <p class="card-text">
+                        
+                        {{#if restaurante.platos }}
+                            <div class="row">
+                                {{#each restaurante.platos}}
+
+                                <div class="col-4">
+                                    <div class="row plato">
+                                        <div class="col-5">
+                                            <img src="{{this.url_image}}" alt="{{this.descripcion}}">
+                                        </div>
+                                        <div class="col">
+                                            <span class="title">
+                                                {{this.nombre}}
+                                            </span>
+                                            <div class="price">
+                                                {{ twoDecimals this.precio }}€
+                                            </div>
+                                            <div class="disponibilidad">
+                                                {{#if disponibilidad}}
+                                                <span class="text-success">Disponible</span>
+                                                {{else}}
+                                                <span class="text-danger">No disponible</span>
+                                                {{/if}}
+                                            </div>
+                                            
+                                            <!-- Modal Ver Plato -->
+                                            <a href="#" class="mt-2 btn btn-sm btn-success"  data-bs-toggle="modal" data-bs-target="#plato-{{@index}}">Ver plato</a>
+                                            <div class="modal fade" id="plato-{{@index}}" tabindex="-1" aria-labelledby="plato-{{@index}}" aria-hidden="true">
+                                                <div class="modal-dialog">
+
+                                                    <div class="modal-content">
+                                                        <form action="/incidencias" method="post">
+
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">{{nombre}}</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            <img src="{{ url_image }}" />
+
+                                                            <p class="mt-2">
+                                                                <b>Descipción: </b>{{ descripcion}}
+                                                            </p>
+                                                            <p class="mt-2">
+                                                                <b>Precio: </b>{{ twoDecimals precio}}€
+                                                            </p>
+                                                            <p class="mt-2">
+                                                                {{#if disponibilidad}}
+                                                                <span class="text-success">Disponible</span>
+                                                                {{else}}
+                                                                <span class="text-danger">No disponible</span>
+                                                                {{/if}}
+                                                            </p>
+
+
+                                                        </div>
+                                                        
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                        </div>
+                                                        </form>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <!-- Fin Modal Ver Plato -->
+
+
+
+                                            <!-- Modal Crear Incidencia -->
+
+                                            <div class="modal fade" id="incidencia-plato-{{@index}}" tabindex="-1" aria-labelledby="plato-{{@index}}" aria-hidden="true">
+                                                <div class="modal-dialog">
+
+                                                    <div class="modal-content">
+                                                        <form action="/incidencias" method="post">
+
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Crear incidencia</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                                <div class="mb-3">
+                                                                    <label for="inputPlato" class="form-label">Plato</label>
+                                                                    <input type="text" value="{{nombre}}" disabled class="form-control" id="inputPlato" aria-describedby="emailHelp">
+                                                                    <div id="platoHelp" class="form-text">Plato seleccionado para crear incidencia</div>
+                                                                    <input type="hidden" name="plato" value="{{nombre}}">
+                                                                </div>
+                                                                <input type="hidden" name="restaurante_id" value="{{../restaurante.id}}">
+                                                                <div class="mb-3">
+                                                                    <label for="inputIncidencia" class="form-label">Cuentanos más de tu incidencia</label>
+                                                                    <textarea name="comentario" class="form-control" id="inputIncidencia" rows="5"></textarea>
+                                                                </div>
+
+                                                                <input type="hidden" name="_csrf" value="{{../_csrf}}">
+
+
+                                                        </div>
+                                                        
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                            <button type="submit" class="btn btn-primary">Crear incidencia</button>
+                                                        </div>
+                                                        </form>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <a href="#" class="mt-2 btn btn-sm btn-danger"  data-bs-toggle="modal" data-bs-target="#incidencia-plato-{{@index}}">Abrir incidencia</a>
+
+                                            <!-- Fin Modal Crear Incidencia -->
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+                                
+
+                                {{/each}}
+                            
+                            </div>
+
+
+                            {{else}}
+                                <div class="alert alert-danger">
+                                    No hay platos registrados para este restaurante
+                                </div>
+                            {{/if}}
+                            
+                        
+
+                    </p>
+                </div>
+
+                
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-12">
+            <div class="card text-align-center mb-3" style=" margin: auto;">
+                <!--<img src="..." class="card-img-top" alt="...">-->
+
+                <div class="card-body">
+                    <h5 class="card-title">Incidencias</h5>
+                    <p class="card-text">
+                        
+                        {{#if incidencias }}
+
+                        <table class="table table-striped table-light">
+                            <thead>
+                                <tr>
+                                    <td>
+                                        Nombre de usuario
+                                    </td>
+                                    <td>
+                                        Plato
+                                    </td>
+                                    <td>
+                                        Comentario
+                                    </td>
+                                    <td>
+                                        Fecha de apertura
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each incidencias}}
+
+                                <tr>
+                                    <td>
+                                        {{ user_id }}
+                                    </td>
+                                    <td>
+                                        {{ plato }}
+                                    </td>
+                                    <td>
+                                        {{ comentarios }}
+                                    </td>
+                                    <td>
+                                        {{ formatDate fecha_apertura }}
+                                    </td>
+                                </tr>
+                            
+                                {{/each}}
+                            </tbody>
+                        </table>
+
+                        {{else}}
+                            <div class="alert alert-danger">
+                                No hay incidencias registradas para este restaurante
+                            </div>
+                        {{/if}}
+
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

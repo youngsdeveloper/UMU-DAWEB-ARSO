@@ -1,0 +1,16 @@
+/home/enrique/proyectos-java/proyecto-arso/usuarios-pasarela/src/main/java/usuarios/servicio/test/Programa.java
+/home/enrique/proyectos-java/proyecto-arso/usuarios-pasarela/src/main/java/usuarios/modelo/Usuario.java
+/home/enrique/proyectos-java/proyecto-arso/usuarios-pasarela/src/main/java/usuarios/modelo/Rol.java
+/home/enrique/proyectos-java/proyecto-arso/usuarios-pasarela/src/main/java/repositorio/EntidadNoEncontrada.java
+/home/enrique/proyectos-java/proyecto-arso/usuarios-pasarela/src/main/java/repositorio/RepositorioString.java
+/home/enrique/proyectos-java/proyecto-arso/usuarios-pasarela/src/main/java/usuarios/servicio/IServicioUsuarios.java
+/home/enrique/proyectos-java/proyecto-arso/usuarios-pasarela/src/main/java/utils/Utils.java
+/home/enrique/proyectos-java/proyecto-arso/usuarios-pasarela/src/main/java/repositorio/Identificable.java
+/home/enrique/proyectos-java/proyecto-arso/usuarios-pasarela/src/main/java/servicio/FactoriaServicios.java
+/home/enrique/proyectos-java/proyecto-arso/usuarios-pasarela/src/main/java/repositorio/RepositorioException.java
+/home/enrique/proyectos-java/proyecto-arso/usuarios-pasarela/src/main/java/repositorio/Repositorio.java
+/home/enrique/proyectos-java/proyecto-arso/usuarios-pasarela/src/main/java/utils/PropertiesReader.java
+/home/enrique/proyectos-java/proyecto-arso/usuarios-pasarela/src/main/java/usuarios/repositorio/RepositorioUsuariosMemoria.java
+/home/enrique/proyectos-java/proyecto-arso/usuarios-pasarela/src/main/java/repositorio/FactoriaRepositorios.java
+/home/enrique/proyectos-java/proyecto-arso/usuarios-pasarela/src/main/java/usuarios/servicio/ServicioUsuarios.java
+/home/enrique/proyectos-java/proyecto-arso/usuarios-pasarela/src/main/java/repositorio/RepositorioMemoria.java
